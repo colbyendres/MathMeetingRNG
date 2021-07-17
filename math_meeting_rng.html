@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel = "stylesheet" href = "rng_css.css">
+  <script>
+
+    function getRand() {
+      document.getElementById('randNum').innerHTML = Math.floor(990*Math.random()+10);
+    }
+
+    function getAns() {
+      var num = parseInt(document.getElementById('randNum').innerHTML);
+        if (num % 2 === 0) {
+          document.getElementById('parity_field').innerHTML = 'Even';
+        }
+        else {
+          document.getElementById('parity_field').innerHTML = 'Odd';
+        }
+
+      var digits = String(num).length // gets number of digits
+      document.getElementById('digit_field').innerHTML = digits;
+      var consecutive_list = (num-1) + ', ' + num + ', ' + (num+1);
+      document.getElementById('consec_field').innerHTML = consecutive_list;
+
+      var hundreds_round = 100 * Math.round(num/100.0);
+      var tens_round = 10 * Math.round(num/10.0);
+
+      document.getElementById('hundred_field').innerHTML = hundreds_round;
+      document.getElementById('ten_field').innerHTML = tens_round;
+
+      var exp_form = '';
+      var place_value = 0;
+      var curr_digit = 0;
+
+        for (var i = 1; i <= digits; i++) { // goes through digits of num
+          place_value = digits - i;
+          curr_digit = String(num).charAt(i-1);
+            if (curr_digit !== '0') {
+              for (var j = 0; j < place_value; j++) { // adds zeroes to get correct value
+                curr_digit += '0';
+              }
+              curr_digit += ' + ';
+              exp_form += curr_digit; // adds current value to expanded form
+            }
+        }
+
+      if (exp_form.charAt(exp_form.length-1) === ' ') { // string ends w/ +
+        exp_form = exp_form.slice(0,-3); // removes last ' + '
+      }
+
+      document.getElementById('exp_field').innerHTML = exp_form;
+    }
+
+  </script>
+</head>
+
+<body class = "container">
+<div id = "title">
+  Math Meeting
+</div>
+
+<div id = "left_box" class = "item">
+  <p> The random number is: </p>
+  <p id = 'randNum' style = "font-weight: bold; font-size: 75px;"> 0 </p>
+  <button onclick = "getRand()"> Generate Random Number </button>
+</div>
+
+<div id = "right_box" class = "item">
+  <ul>
+    <li> <span> Odd or Even: </span> <p id = 'parity_field'> </p> </li>
+    <li> <span> Number of Digits: </span> <p id = 'digit_field'> </p> </li>
+    <li> <span> Before and After: </span> <p id = 'consec_field'> </p> </li>
+    <li> <span> To the Nearest Hundred: </span> <p id = 'hundred_field'> </p> </li>
+    <li> <span> To the Nearest Ten: </span> <p id = 'ten_field'> </p> </li>
+    <li> <span> Expanded Form: </span> <p id = 'exp_field'> </p> </li>
+  </ul>
+  <button onclick = "getAns()"> Show Answers </button>
+</div>
+
+</body>
+
+
+
+</html>
